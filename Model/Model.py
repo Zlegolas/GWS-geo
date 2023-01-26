@@ -51,7 +51,7 @@ def f(a):
 
 
 def getinfo():
-    num_nodes = 3344
+    num_nodes = 22783
     num_feats = 3472
     feat_data = np.zeros((num_nodes, num_feats))
     labels = np.empty((num_nodes, 1), dtype=np.int64)
@@ -81,12 +81,12 @@ def train():
 
     np.random.seed(1)
     random.seed(1)
-    num_nodes = 3344
+    num_nodes = 22783
     feat_data, labels, adj_lists = getinfo()
-    features = nn.Embedding(3344, 3472)
+    features = nn.Embedding(22783, 3472)
     features.weight = nn.Parameter(torch.FloatTensor(feat_data), requires_grad=False)
     agg1 = MeanAggregator(features, cuda=True)
-    enc1 = Encoder(features, 1433, 128, adj_lists, agg1, gcn=True, cuda=False)
+    enc1 = Encoder(features, 22783, 128, adj_lists, agg1, gcn=True, cuda=False)
     agg2 = MeanAggregator(lambda nodes: enc1(nodes).t(), cuda=False)
     enc2 = Encoder(lambda nodes: enc1(nodes).t(), enc1.embed_dim, 128, adj_lists, agg2,
                    base_model=enc1, gcn=True, cuda=False)
